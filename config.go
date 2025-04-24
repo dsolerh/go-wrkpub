@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
-	"path"
+	"path/filepath"
 
 	"gopkg.in/yaml.v3"
 )
@@ -77,7 +77,7 @@ func (c *PublishConfig) getPackagesTags(packages []string) []string {
 func (c *PublishConfig) getWorkPkgPaths() []string {
 	packages := make([]string, 0, len(c.Packages))
 	for _, pkg := range c.Packages {
-		packages = append(packages, path.Join(c.Root, pkg.WorkName))
+		packages = append(packages, filepath.Join(c.Root, pkg.WorkName))
 	}
 	return packages
 }
@@ -85,7 +85,7 @@ func (c *PublishConfig) getWorkPkgPaths() []string {
 func (c *PublishConfig) getPkgPaths(packages []string) []string {
 	pkgs := make([]string, 0, len(c.Packages))
 	for _, pkg := range packages {
-		pkgs = append(pkgs, path.Join(c.Root, pkg))
+		pkgs = append(pkgs, filepath.Join(c.Root, pkg))
 	}
 	return pkgs
 }

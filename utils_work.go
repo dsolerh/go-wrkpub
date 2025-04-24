@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"path"
+	"path/filepath"
 
 	"github.com/samber/lo"
 )
@@ -28,7 +28,7 @@ func updatePackageMods(c *PublishConfig, packages []string) error {
 		workName := c.Packages[pkgn].WorkName
 		pkgName := c.Packages[pkgn].PkgName
 		// rename package name
-		gomodPath := path.Join(pkgName, "go.mod")
+		gomodPath := filepath.Join(pkgName, "go.mod")
 		data, err := os.ReadFile(gomodPath)
 		if err != nil {
 			return fmt.Errorf("error reading go.mod file: %w", err)
