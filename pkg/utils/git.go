@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 
 // HasUncommittedChanges checks if the git repository at the given path
 // has any uncommitted changes.
-func hasUncommittedChanges() (bool, error) {
+func HasUncommittedChanges() (bool, error) {
 	// Run: git status --porcelain
 	output, err := exec.Command("git", "status", "--porcelain").Output()
 	if err != nil {
@@ -19,7 +19,7 @@ func hasUncommittedChanges() (bool, error) {
 	return len(strings.TrimSpace(string(output))) > 0, nil
 }
 
-func commitChanges(message string) error {
+func CommitChanges(message string) error {
 	// add the changes
 	output, err := exec.Command("git", "add", ".").CombinedOutput()
 	if err != nil {
@@ -32,7 +32,7 @@ func commitChanges(message string) error {
 	return nil
 }
 
-func getPublishCommitMessage(pkgtags []string) string {
+func GetPublishCommitMessage(pkgtags []string) string {
 	var plural = "package"
 	if len(pkgtags) > 1 {
 		plural = "packages"
@@ -51,9 +51,9 @@ func tagPackagesVersion(tags []string) error {
 	return nil
 }
 
-const cleanupCommit = "ci: cleanup publish"
+const CleanupCommit = "ci: cleanup publish"
 
-func pushChanges(tags []string) error {
+func PushChanges(tags []string) error {
 	// push the changes
 	output, err := exec.Command("git", "push").CombinedOutput()
 	if err != nil {

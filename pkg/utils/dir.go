@@ -1,10 +1,12 @@
-package main
+package utils
 
 import (
 	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
+
+	"github.com/dsolerh/go-wrkpub/pkg/config"
 )
 
 func copyDirectory(src, dst string) error {
@@ -20,7 +22,7 @@ func copyDirectory(src, dst string) error {
 	return nil
 }
 
-func copyPackagesToRoot(c *PublishConfig, packages []string) error {
+func CopyPackagesToRoot(c *config.PublishConfig, packages []string) error {
 	for _, pkg := range packages {
 		workPath := filepath.Join(c.Root, c.Packages[pkg].WorkName)
 		pkgPath := filepath.Join(c.Root, c.Packages[pkg].PkgName)
@@ -31,7 +33,7 @@ func copyPackagesToRoot(c *PublishConfig, packages []string) error {
 	return nil
 }
 
-func removePackagesFromRoot(packagesName []string) error {
+func RemovePackagesFromRoot(packagesName []string) error {
 	for _, packageName := range packagesName {
 		// remove the package from the root
 		if err := os.RemoveAll(packageName); err != nil {

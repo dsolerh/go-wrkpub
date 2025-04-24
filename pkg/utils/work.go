@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"bytes"
@@ -7,10 +7,11 @@ import (
 	"os/exec"
 	"path/filepath"
 
+	"github.com/dsolerh/go-wrkpub/pkg/config"
 	"github.com/samber/lo"
 )
 
-func updateWorkspacePackages(newPackages, oldPackages []string) error {
+func UpdateWorkspacePackages(newPackages, oldPackages []string) error {
 	useNew := lo.Map(newPackages, func(p string, _ int) string { return fmt.Sprintf("-use=%s", p) })
 	dropOld := lo.Map(oldPackages, func(p string, _ int) string { return fmt.Sprintf("-dropuse=%s", p) })
 	baseArgs := []string{"work", "edit"}
@@ -23,7 +24,7 @@ func updateWorkspacePackages(newPackages, oldPackages []string) error {
 	return nil
 }
 
-func updatePackageMods(c *PublishConfig, packages []string) error {
+func UpdatePackageMods(c *config.PublishConfig, packages []string) error {
 	for _, pkgn := range packages {
 		workName := c.Packages[pkgn].WorkName
 		pkgName := c.Packages[pkgn].PkgName

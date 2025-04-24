@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"fmt"
@@ -21,7 +21,7 @@ type PackageInfo struct {
 	Version  string `yaml:"version"`
 }
 
-func loadPublishConfig(fname string) (*PublishConfig, error) {
+func LoadPublishConfig(fname string) (*PublishConfig, error) {
 	f, err := os.Open(fname)
 	if err != nil {
 		return nil, fmt.Errorf("error opening config file: %w", err)
@@ -38,7 +38,7 @@ func loadPublishConfig(fname string) (*PublishConfig, error) {
 	return config, nil
 }
 
-func (c *PublishConfig) getPackagesNames(args []string) ([]string, error) {
+func (c *PublishConfig) GetPackagesNames(args []string) ([]string, error) {
 	if len(args) == 0 {
 		packageNames := make([]string, 0, len(c.Packages))
 		for pkgName := range c.Packages {
@@ -55,7 +55,7 @@ func (c *PublishConfig) getPackagesNames(args []string) ([]string, error) {
 	return args, nil
 }
 
-func (c *PublishConfig) updatePackagesVersion(packages []string, updater func(string) (string, error)) (err error) {
+func (c *PublishConfig) UpdatePackagesVersion(packages []string, updater func(string) (string, error)) (err error) {
 	for _, pkgName := range packages {
 		pkg := c.Packages[pkgName]
 		pkg.Version, err = updater(pkg.Version)
@@ -66,7 +66,7 @@ func (c *PublishConfig) updatePackagesVersion(packages []string, updater func(st
 	return
 }
 
-func (c *PublishConfig) getPackagesTags(packages []string) []string {
+func (c *PublishConfig) GetPackagesTags(packages []string) []string {
 	tags := make([]string, 0, len(packages))
 	for _, pkgName := range packages {
 		tags = append(tags, fmt.Sprintf("%s/%s", pkgName, c.Packages[pkgName].Version))
@@ -74,7 +74,7 @@ func (c *PublishConfig) getPackagesTags(packages []string) []string {
 	return tags
 }
 
-func (c *PublishConfig) getWorkPkgPaths() []string {
+func (c *PublishConfig) GetWorkPkgPaths() []string {
 	packages := make([]string, 0, len(c.Packages))
 	for _, pkg := range c.Packages {
 		packages = append(packages, filepath.Join(c.Root, pkg.WorkName))
@@ -82,7 +82,7 @@ func (c *PublishConfig) getWorkPkgPaths() []string {
 	return packages
 }
 
-func (c *PublishConfig) getPkgPaths(packages []string) []string {
+func (c *PublishConfig) GetPkgPaths(packages []string) []string {
 	pkgs := make([]string, 0, len(c.Packages))
 	for _, pkg := range packages {
 		pkgs = append(pkgs, filepath.Join(c.Root, pkg))
@@ -90,7 +90,7 @@ func (c *PublishConfig) getPkgPaths(packages []string) []string {
 	return pkgs
 }
 
-func (c *PublishConfig) saveConfig() error {
+func (c *PublishConfig) SaveConfig() error {
 	f, err := os.Create(c.configPath)
 	if err != nil {
 		return err

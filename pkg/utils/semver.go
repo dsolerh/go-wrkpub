@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"github.com/Masterminds/semver/v3"
 )
 
-func semverUpdater(vtype string) (func(string) (string, error), error) {
+func SemverUpdater(vtype string) (func(string) (string, error), error) {
 	switch vtype {
 	case "mayor":
 		return func(s string) (string, error) {
