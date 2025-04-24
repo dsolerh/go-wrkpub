@@ -16,7 +16,7 @@ func main() {
 	}
 
 	v := flag.String("v", "patch", "the update to the package version (mayor|minor|patch)")
-	fname := flag.String("f", "publish.yml", "the config file for the update")
+	fname := flag.String("f", "publish.go.yml", "the config file for the update")
 	push := flag.Bool("push", false, "if set to true will push the changes to the git repo")
 	flag.Parse()
 
