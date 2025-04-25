@@ -40,7 +40,7 @@ func GetPublishCommitMessage(pkgtags []string) string {
 	return fmt.Sprintf("ci: publish %s\n +%s", plural, strings.Join(pkgtags, "\n +"))
 }
 
-func tagPackagesVersion(tags []string) error {
+func TagPackagesVersion(tags []string) error {
 	for _, tag := range tags {
 		output, err := exec.Command("git", "tag", "--", tag, "HEAD").CombinedOutput()
 		if err != nil {
